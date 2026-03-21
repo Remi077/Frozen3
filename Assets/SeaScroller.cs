@@ -2,21 +2,32 @@ using UnityEngine;
 
 public class SeaScroller : MonoBehaviour
 {
-    public float speed = 5f;       // Speed of sea movement
-    public float resetZ = -50f;    // Where the plane resets
-    public float startZ = 50f;     // Starting Z position
+    public float speed = 10f;
+    public float resetZ = -150f;
+    public float startZ = 150f;
+
+    public bool destroyOnReset = false; // ✅ NEW
 
     void Update()
     {
-        // Move plane towards negative Z
-        transform.Translate(Vector3.back * speed * Time.deltaTime);
+        // Move in world space
+        transform.position += Vector3.back * speed * Time.deltaTime;
 
-        // Reset plane to front
         if (transform.position.z <= resetZ)
         {
-            Vector3 pos = transform.position;
-            pos.z = startZ;
-            transform.position = pos;
+            if (destroyOnReset)
+            {
+                Destroy(gameObject); // ✅ destroy instead of looping
+            }
+            else
+            {
+                // Loop back to front
+                transform.position = new Vector3(
+                    transform.position.x,
+                    transform.position.y,
+                    startZ
+                );
+            }
         }
     }
 }

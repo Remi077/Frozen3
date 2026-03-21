@@ -6,6 +6,7 @@ public class RotateCube : MonoBehaviour
 
     void Update()
     {
-        transform.Rotate(0, speed * Time.deltaTime, 0);
+        // ✅ Rotate around WORLD Y axis
+        transform.Rotate(Vector3.up * speed * Time.deltaTime, Space.World);
     }
 }

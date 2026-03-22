@@ -7,9 +7,10 @@ public class IslandOrbit : MonoBehaviour
 
     private Vector2 lastTouchPos;
     private bool isTouching = false;
-
+    public bool canRotate = true;
     void Update()
     {
+        if (!canRotate) return;
         // Touch (smartphone)
         if (Touchscreen.current != null)
         {
@@ -28,7 +29,7 @@ public class IslandOrbit : MonoBehaviour
             {
                 Vector2 currentPos = touch.position.ReadValue();
                 float dx = currentPos.x - lastTouchPos.x;
-                transform.Rotate(Vector3.up, -dx * sensitivity, Space.World);
+                transform.Rotate(Vector3.up, dx * sensitivity, Space.World);
                 lastTouchPos = currentPos;
             }
         }
@@ -39,7 +40,7 @@ public class IslandOrbit : MonoBehaviour
         if (mouse != null && mouse.leftButton.isPressed)
         {
             float dx = mouse.delta.ReadValue().x;
-            transform.Rotate(Vector3.up, -dx * sensitivity, Space.World);
+            transform.Rotate(Vector3.up, dx * sensitivity, Space.World);
         }
 #endif
     }

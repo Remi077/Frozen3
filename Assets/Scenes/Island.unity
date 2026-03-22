@@ -271,6 +271,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 870cbe2758dfaef4eb8f2cce6ddf913b, type: 3}
+--- !u!1 &174238300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 174238301}
+  m_Layer: 0
+  m_Name: CameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &174238301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174238300}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.35573304, y: -0.28076515, z: 0.20077422, w: 0.868513}
+  m_LocalPosition: {x: 10.27686, y: 10.09, z: -8.440078}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 46.942, y: -30.338, z: 12.605}
 --- !u!1 &250089378
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +441,7 @@ GameObject:
   - component: {fileID: 270017847}
   - component: {fileID: 270017846}
   - component: {fileID: 270017849}
+  - component: {fileID: 270017850}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -535,6 +567,20 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &270017850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270017845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c0ce5095e13ecf45b58faf2fa9b5387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  targetPosition: {fileID: 174238301}
+  speed: 1
 --- !u!1 &370523068
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,15 +789,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.62314
+      value: 8.29
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.96
+      value: 4.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.809922
+      value: -5.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -792,8 +838,95 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1034918672}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1034918671}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1034918674}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1034918673}
   m_SourcePrefab: {fileID: 100100000, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
+--- !u!1 &1034918669 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 09fd1d4d94673b84a970950f980670e2, type: 3}
+  m_PrefabInstance: {fileID: 1009298495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1034918671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034918669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e3b8da860fa0f54aa7bd6d0a6031a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreasureClick
+  cam: {fileID: 270017847}
+  treasureController: {fileID: 1034918674}
+--- !u!65 &1034918672
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034918669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.29, z: 0}
+--- !u!95 &1034918673
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034918669}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 08f70415cd5ad7c4ebd50b68d3a70f1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1034918674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034918669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50419cd3b8fca88459337b579f9262f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreasureController
+  cameraController: {fileID: 270017850}
 --- !u!1001 &1454493694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -999,6 +1132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IslandOrbit
   sensitivity: 0.3
+  canRotate: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1011,3 +1145,4 @@ SceneRoots:
   - {fileID: 1688990204}
   - {fileID: 48537701}
   - {fileID: 370523070}
+  - {fileID: 174238301}

@@ -9,8 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/StartMenu.unity
     guid: 335a21a689ec00447a97371cb8a00766
   - enabled: 1
-    path: Assets/Scenes/RotatingCubeScene.unity
+    path: Assets/Scenes/SeaScroll.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Island.unity
+    guid: f6f34c75dc5a20641b81507e6e1e8abf
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

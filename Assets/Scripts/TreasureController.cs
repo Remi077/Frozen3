@@ -1,28 +1,40 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 public class TreasureController : MonoBehaviour
 {
     public CameraController cameraController;
+    public GameObject rewardText;
+    public GameObject rewardButton;
+    public float rewardDelay = 1.5f;
 
     private Animator animator;
     private IslandOrbit islandOrbit;
+    private WaitForSeconds waitForOpen;
+    private WaitForSeconds waitForReward;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         islandOrbit = FindAnyObjectByType<IslandOrbit>();
+        waitForOpen = new WaitForSeconds(1.0f);
+        waitForReward = new WaitForSeconds(rewardDelay);
     }
 
     public void OnTreasureClicked()
     {
         if (islandOrbit != null) islandOrbit.canRotate = false;
         cameraController.FocusOnTreasure();
-        Invoke("OpenTreasure", 1.0f); // delay for camera move
+        StartCoroutine(OpenSequence());
     }
 
-    void OpenTreasure()
+    IEnumerator OpenSequence()
     {
+        yield return waitForOpen;
         animator.SetTrigger("Open");
+        yield return waitForReward;
+        if (rewardText) rewardText.SetActive(true);
+        if (rewardButton) rewardButton.SetActive(true);
     }
 }

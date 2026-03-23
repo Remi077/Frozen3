@@ -18,6 +18,7 @@ public class TimerGauge : MonoBehaviour
 
     void Start()
     {
+        SeaScroller.Speed = 20f;
         timeLeft = duration;
 
         if (gauge != null)
@@ -50,6 +51,9 @@ public class TimerGauge : MonoBehaviour
         finished = true;
 
         SeaScroller.Speed = 0f;
+
+        foreach (var spawner in FindObjectsByType<ItemSpawner>(FindObjectsSortMode.None))
+            spawner.enabled = false;
 
         if (reussiteText != null)
             reussiteText.SetActive(true);

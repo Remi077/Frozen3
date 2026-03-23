@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3acc3a466956524488854e5e551be2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerGauge
-  duration: 10
+  duration: 20
   nextScene: Island
   gauge: {fileID: 1947491386}
   reussiteText: {fileID: 2035571738}
@@ -1331,10 +1331,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinSpawner
   itemPrefab: {fileID: 7954450295364760322, guid: 47e6d46066335584a923c395ba73b93a, type: 3}
-  spawnZ: 100
+  spawnZ: 80
   laneDistance: 2.1
-  spawnIntervalMin: 1
-  spawnIntervalMax: 3
+  spawnIntervalMin: 0.5
+  spawnIntervalMax: 1.5
 --- !u!4 &831499333
 Transform:
   m_ObjectHideFlags: 0
@@ -1363,10 +1363,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSpawner
   itemPrefab: {fileID: 6630959796708725882, guid: 9e46f1339a8c2474bb422e6c50f76b05, type: 3}
-  spawnZ: 100
+  spawnZ: 80
   laneDistance: 2.1
-  spawnIntervalMin: 3
-  spawnIntervalMax: 5
+  spawnIntervalMin: 1.5
+  spawnIntervalMax: 2.5
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

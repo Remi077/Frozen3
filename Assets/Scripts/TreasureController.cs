@@ -33,6 +33,7 @@ public class TreasureController : MonoBehaviour
     {
         yield return waitForOpen;
         animator.SetTrigger("Open");
+        if (ScoreManager.Instance != null) ScoreManager.Instance.AddScore(10);
         yield return waitForReward;
         if (rewardText) rewardText.SetActive(true);
         if (rewardButton) rewardButton.SetActive(true);

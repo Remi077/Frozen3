@@ -11,6 +11,7 @@ public class SwipeLaneMovement : MonoBehaviour
     private PlayerInputActions inputActions;
 
     private Vector2 startTouch;
+    private bool swipeConsumed;
 
     void Awake()
     {
@@ -50,12 +51,15 @@ public class SwipeLaneMovement : MonoBehaviour
         var touch = Touchscreen.current.primaryTouch;
 
         if (touch.press.wasPressedThisFrame)
-            startTouch = touch.position.ReadValue();
-
-        if (touch.press.wasReleasedThisFrame)
         {
-            Vector2 endTouch = touch.position.ReadValue();
-            Vector2 swipe = endTouch - startTouch;
+            startTouch = touch.position.ReadValue();
+            swipeConsumed = false;
+        }
+
+        // Trigger as soon as threshold is crossed, don't wait for release
+        if (!swipeConsumed && touch.press.isPressed)
+        {
+            Vector2 swipe = touch.position.ReadValue() - startTouch;
 
             if (Mathf.Abs(swipe.x) > 50)
             {
@@ -63,6 +67,8 @@ public class SwipeLaneMovement : MonoBehaviour
                     MoveRight();
                 else
                     MoveLeft();
+
+                swipeConsumed = true; // prevent repeated triggers for the same swipe
             }
         }
     }

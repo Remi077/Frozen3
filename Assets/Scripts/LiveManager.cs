@@ -15,9 +15,15 @@ public class LiveManager : MonoBehaviour
 
     private bool isGameOver = false;
 
+    private static int persistedLives = 3;
+    private static readonly int defaultLives = 3;
+
+    public static void ResetLives() => persistedLives = defaultLives;
+
     void Awake()
     {
         Instance = this;
+        lives = persistedLives;
     }
 
     void Start()
@@ -31,6 +37,7 @@ public class LiveManager : MonoBehaviour
         if (isGameOver) return;
 
         lives -= amount;
+        persistedLives = lives;
         UpdateUI();
 
         if (lives <= 0)
@@ -47,6 +54,9 @@ public class LiveManager : MonoBehaviour
     void GameOver()
     {
         isGameOver = true;
+
+        ResetLives();
+        ScoreManager.ResetScore();
 
         Debug.Log("GAME OVER");
 

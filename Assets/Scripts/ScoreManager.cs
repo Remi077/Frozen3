@@ -8,14 +8,25 @@ public class ScoreManager : MonoBehaviour
     public int score = 0;
     public TextMeshProUGUI scoreText;
 
+    private static int persistedScore = 0;
+
+    public static void ResetScore() => persistedScore = 0;
+
     void Awake()
     {
         Instance = this;
+        score = persistedScore;
+    }
+
+    void Start()
+    {
+        scoreText.text = "Score: " + score;
     }
 
     public void AddScore(int amount)
     {
         score += amount;
+        persistedScore = score;
         scoreText.text = "Score: " + score;
     }
 }

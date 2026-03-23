@@ -3,6 +3,7 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public int value = 1;
+    public GameObject floatingIconPrefab;
 
     private bool collected = false;
 
@@ -13,6 +14,9 @@ public class Coin : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             collected = true;
+
+            if (floatingIconPrefab != null)
+                Instantiate(floatingIconPrefab, transform.position, Quaternion.identity);
 
             ScoreManager.Instance.AddScore(value);
             Destroy(gameObject);

@@ -3,6 +3,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Transform targetPosition;
+    public Transform treasure;
     public float speed = 2f;
 
     private bool moveToTarget = false;
@@ -22,11 +23,9 @@ public class CameraController : MonoBehaviour
                 Time.deltaTime * speed
             );
 
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation,
-                targetPosition.rotation,
-                Time.deltaTime * speed
-            );
+            Vector3 dirToTreasure = treasure.position - transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(dirToTreasure);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * speed);
         }
     }
 }

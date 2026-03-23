@@ -129,7 +129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0adb58a3fc85564d8d40cfa03f52ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SeaScroller
-  speed: 10
   resetZ: -150
   startZ: 150
   destroyOnReset: 1
@@ -146,6 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Coin
   value: 1
+  floatingIconPrefab: {fileID: 2275970952586333646, guid: 0d91c139b44c4d94683d49580fcb024c, type: 3}
 --- !u!114 &613291006794703485
 MonoBehaviour:
   m_ObjectHideFlags: 0

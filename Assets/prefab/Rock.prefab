@@ -126,10 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0adb58a3fc85564d8d40cfa03f52ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SeaScroller
-  speed: 10
   resetZ: -150
   startZ: 150
-  destroyOnReset: 0
+  destroyOnReset: 1
 --- !u!114 &7772843581301692273
 MonoBehaviour:
   m_ObjectHideFlags: 0

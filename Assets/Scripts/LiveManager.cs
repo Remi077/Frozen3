@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
@@ -8,7 +7,7 @@ public class LiveManager : MonoBehaviour
     public static LiveManager Instance;
 
     public int lives = 3;
-    public TextMeshProUGUI livesText;
+    public GameObject[] lifeIcons; // assign 3 icon GameObjects in Inspector
 
     public GameObject gameOverText; // ✅ assign in inspector
     public float gameOverDelay = 2f;
@@ -18,12 +17,18 @@ public class LiveManager : MonoBehaviour
     private static int persistedLives = 3;
     private static readonly int defaultLives = 3;
 
+    private Vector3[] iconInitialScales;
+
     public static void ResetLives() => persistedLives = defaultLives;
 
     void Awake()
     {
         Instance = this;
         lives = persistedLives;
+
+        iconInitialScales = new Vector3[lifeIcons.Length];
+        for (int i = 0; i < lifeIcons.Length; i++)
+            iconInitialScales[i] = lifeIcons[i].transform.localScale;
     }
 
     void Start()
@@ -46,9 +51,37 @@ public class LiveManager : MonoBehaviour
         }
     }
 
+    public float iconShrinkDuration = 0.3f;
+
     void UpdateUI()
     {
-        livesText.text = "Lives: " + lives;
+        for (int i = 0; i < lifeIcons.Length; i++)
+        {
+            if (i < lives)
+            {
+                lifeIcons[i].SetActive(true);
+                lifeIcons[i].transform.localScale = iconInitialScales[i];
+            }
+            else if (lifeIcons[i].activeSelf)
+            {
+                StartCoroutine(ShrinkAndHide(lifeIcons[i]));
+            }
+        }
+    }
+
+    IEnumerator ShrinkAndHide(GameObject icon)
+    {
+        int index = System.Array.IndexOf(lifeIcons, icon);
+        Vector3 initialScale = iconInitialScales[index];
+        float t = 0f;
+        while (t < iconShrinkDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            icon.transform.localScale = Vector3.Lerp(initialScale, Vector3.zero, t / iconShrinkDuration);
+            yield return null;
+        }
+        icon.SetActive(false);
+        icon.transform.localScale = initialScale;
     }
 
     void GameOver()

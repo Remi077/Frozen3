@@ -20,13 +20,13 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
-        scoreText.text = "Score: " + score;
+        scoreText.text = "x " + score;
     }
 
     public void AddScore(int amount)
     {
         score += amount;
         persistedScore = score;
-        scoreText.text = "Score: " + score;
+        scoreText.text = "x " + score;
     }
 }

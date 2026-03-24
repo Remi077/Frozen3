@@ -10,6 +10,8 @@ public class ItemSpawner : MonoBehaviour
     public float spawnIntervalMin = 0.5f;
     public float spawnIntervalMax = 1.5f;
 
+    public bool randomYRotation = true;
+
     private float timer;
 
     void Start()
@@ -38,7 +40,18 @@ public class ItemSpawner : MonoBehaviour
             spawnZ
         );
 
-        Instantiate(itemPrefab, spawnPos, itemPrefab.transform.rotation);
+        Quaternion rotation = randomYRotation
+            ? Quaternion.Euler(0f, Random.Range(0f, 360f), 0f)
+            : itemPrefab.transform.rotation;
+        GameObject spawned = Instantiate(itemPrefab, spawnPos, rotation);
+
+        if (randomYRotation)
+        {
+            Vector3 s = spawned.transform.localScale;
+            s.y *= Random.Range(0.7f, 1.3f);
+            spawned.transform.localScale = s;
+        }
+
     }
 
     void SetNextSpawnTime()

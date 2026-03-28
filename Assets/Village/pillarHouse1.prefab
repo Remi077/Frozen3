@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8367096457536646369
+--- !u!1 &7374982460620543722
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 975934026655942926}
-  - component: {fileID: 910471251463405590}
-  - component: {fileID: 6144883921395479489}
+  - component: {fileID: 2019825094417260266}
+  - component: {fileID: 7080853566150919465}
+  - component: {fileID: 5638280864550136817}
   m_Layer: 0
   m_Name: pillarHouse1
   m_TagString: Untagged
@@ -18,36 +18,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &975934026655942926
+--- !u!4 &2019825094417260266
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8367096457536646369}
+  m_GameObject: {fileID: 7374982460620543722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -43.628094, y: -0.0000002768594, z: 19.46802}
+  m_LocalPosition: {x: 0.46963, y: -0, z: 2.00115}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &910471251463405590
+--- !u!33 &7080853566150919465
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8367096457536646369}
+  m_GameObject: {fileID: 7374982460620543722}
   m_Mesh: {fileID: -7743993327696433814, guid: 4b61712887e1e8048b813f10d9d376fb, type: 3}
---- !u!23 &6144883921395479489
+--- !u!23 &5638280864550136817
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8367096457536646369}
+  m_GameObject: {fileID: 7374982460620543722}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1

@@ -17,6 +17,7 @@ public class VillageIntroCamera : MonoBehaviour
     [Header("UI")]
     public GameObject popupMessageObject;
     public GameObject leftArrow;
+    public GameObject middleArrow;
     public GameObject rightArrow;
     public GameObject leaveButton;
     public int swipesBeforeLeave = 4;
@@ -30,13 +31,13 @@ public class VillageIntroCamera : MonoBehaviour
     private enum ViewState { Initial, Middle, Left, Right, Transitioning }
     private ViewState state = ViewState.Initial;
 
-    private Vector2 startTouch;
-    private bool swipeConsumed;
     private bool inputEnabled = false;
 
     private Vector3 leftArrowBaseScale;
+    private Vector3 middleArrowBaseScale;
     private Vector3 rightArrowBaseScale;
     private Coroutine leftArrowCoroutine;
+    private Coroutine middleArrowCoroutine;
     private Coroutine rightArrowCoroutine;
 
     private int swipeCount = 0;
@@ -44,9 +45,13 @@ public class VillageIntroCamera : MonoBehaviour
 
     void Start()
     {
-        if (leftArrow)   { leftArrowBaseScale  = leftArrow.transform.localScale;  leftArrow.SetActive(false); }
-        if (rightArrow)  { rightArrowBaseScale = rightArrow.transform.localScale; rightArrow.SetActive(false); }
+        if (leftArrow)   { leftArrowBaseScale   = leftArrow.transform.localScale;   leftArrow.SetActive(false); }
+        if (middleArrow) { middleArrowBaseScale = middleArrow.transform.localScale; middleArrow.SetActive(false); }
+        if (rightArrow)  { rightArrowBaseScale  = rightArrow.transform.localScale;  rightArrow.SetActive(false); }
         if (leaveButton) leaveButton.SetActive(false);
+
+        if (leftArrow)  { var btn = leftArrow.GetComponent<UnityEngine.UI.Button>();  if (btn) btn.onClick.AddListener(TrySwipeLeft); }
+        if (rightArrow) { var btn = rightArrow.GetComponent<UnityEngine.UI.Button>(); if (btn) btn.onClick.AddListener(TrySwipeRight); }
 
         StartCoroutine(IntroSequence());
     }
@@ -61,8 +66,9 @@ public class VillageIntroCamera : MonoBehaviour
 
         state = ViewState.Middle;
 
-        ShowArrow(leftArrow,  ref leftArrowCoroutine,  leftArrowBaseScale);
-        ShowArrow(rightArrow, ref rightArrowCoroutine, rightArrowBaseScale);
+        ShowArrow(leftArrow,   ref leftArrowCoroutine,   leftArrowBaseScale);
+        ShowArrow(middleArrow, ref middleArrowCoroutine, middleArrowBaseScale);
+        ShowArrow(rightArrow,  ref rightArrowCoroutine,  rightArrowBaseScale);
 
         inputEnabled = true;
     }
@@ -72,7 +78,6 @@ public class VillageIntroCamera : MonoBehaviour
         if (!inputEnabled) return;
 
         HandleKeyboard();
-        HandleTouch();
     }
 
     void HandleKeyboard()
@@ -84,33 +89,6 @@ public class VillageIntroCamera : MonoBehaviour
 
         if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
             TrySwipeRight();
-    }
-
-    void HandleTouch()
-    {
-        if (Touchscreen.current == null) return;
-
-        var touch = Touchscreen.current.primaryTouch;
-
-        if (touch.press.wasPressedThisFrame)
-        {
-            startTouch = touch.position.ReadValue();
-            swipeConsumed = false;
-        }
-
-        if (!swipeConsumed && touch.press.isPressed)
-        {
-            Vector2 swipe = touch.position.ReadValue() - startTouch;
-            if (Mathf.Abs(swipe.x) > 50f)
-            {
-                if (swipe.x > 0f)
-                    TrySwipeLeft();
-                else
-                    TrySwipeRight();
-
-                swipeConsumed = true;
-            }
-        }
     }
 
     void TrySwipeLeft()
@@ -157,16 +135,19 @@ public class VillageIntroCamera : MonoBehaviour
     {
         if (state == ViewState.Left)
         {
-            HideArrow(leftArrow,  ref leftArrowCoroutine,  leftArrowBaseScale);
+            HideArrow(leftArrow,   ref leftArrowCoroutine,   leftArrowBaseScale);
+            HideArrow(middleArrow, ref middleArrowCoroutine, middleArrowBaseScale);
         }
         else if (state == ViewState.Right)
         {
-            HideArrow(rightArrow, ref rightArrowCoroutine, rightArrowBaseScale);
+            HideArrow(rightArrow,  ref rightArrowCoroutine,  rightArrowBaseScale);
+            HideArrow(middleArrow, ref middleArrowCoroutine, middleArrowBaseScale);
         }
         else if (state == ViewState.Middle)
         {
-            if (leftArrow  && !leftArrow.activeSelf)  ShowArrow(leftArrow,  ref leftArrowCoroutine,  leftArrowBaseScale);
-            if (rightArrow && !rightArrow.activeSelf) ShowArrow(rightArrow, ref rightArrowCoroutine, rightArrowBaseScale);
+            if (leftArrow   && !leftArrow.activeSelf)   ShowArrow(leftArrow,   ref leftArrowCoroutine,   leftArrowBaseScale);
+            if (middleArrow && !middleArrow.activeSelf) ShowArrow(middleArrow, ref middleArrowCoroutine, middleArrowBaseScale);
+            if (rightArrow  && !rightArrow.activeSelf)  ShowArrow(rightArrow,  ref rightArrowCoroutine,  rightArrowBaseScale);
         }
     }
 

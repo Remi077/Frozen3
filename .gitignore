@@ -67,6 +67,14 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Lightmaps
+*_comp_dir.png
+*_comp_dir.png.meta
+*_comp_light.exr
+*_comp_light.exr.meta
+LightingData.asset
+LightingData.asset.meta
+
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 

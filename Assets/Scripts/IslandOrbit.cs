@@ -10,7 +10,7 @@ public class IslandOrbit : MonoBehaviour
     public bool canRotate = true;
     void Update()
     {
-        if (!canRotate) return;
+        if (!canRotate || DraggableIcon.isDragging) return;
         // Touch (smartphone)
         if (Touchscreen.current != null)
         {

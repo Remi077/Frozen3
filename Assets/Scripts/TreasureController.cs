@@ -4,12 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class TreasureController : MonoBehaviour
 {
-    public CameraController cameraController;
-    public GameObject rewardText;
-    public GameObject rewardButton;
     public float rewardDelay = 1.5f;
 
     private Animator animator;
+    private CameraController cameraController;
+    private GameObject rewardButton;
+    private GameObject continueButton;
     private IslandOrbit islandOrbit;
     private WaitForSeconds waitForOpen;
     private WaitForSeconds waitForReward;
@@ -22,10 +22,19 @@ public class TreasureController : MonoBehaviour
         waitForReward = new WaitForSeconds(rewardDelay);
     }
 
+    public void SetReferences(CameraController camera, GameObject button, GameObject continueBtn, Transform cameraTarget)
+    {
+        cameraController = camera;
+        rewardButton = button;
+        continueButton = continueBtn;
+        if (cameraController != null && cameraTarget != null)
+            cameraController.SetTarget(cameraTarget);
+    }
+
     public void OnTreasureClicked()
     {
         if (islandOrbit != null) islandOrbit.canRotate = false;
-        cameraController.FocusOnTreasure();
+        if (cameraController != null) cameraController.FocusOnTreasure(transform);
         StartCoroutine(OpenSequence());
     }
 
@@ -35,7 +44,7 @@ public class TreasureController : MonoBehaviour
         animator.SetTrigger("Open");
         if (ScoreManager.Instance != null) ScoreManager.Instance.AddScore(10);
         yield return waitForReward;
-        if (rewardText) rewardText.SetActive(true);
         if (rewardButton) rewardButton.SetActive(true);
+        if (continueButton) continueButton.SetActive(true);
     }
 }

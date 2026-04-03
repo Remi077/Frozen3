@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class TreasureClick : MonoBehaviour
 {
-    public Camera cam;
     public TreasureController treasureController;
 
     void Update()
@@ -17,7 +16,7 @@ public class TreasureClick : MonoBehaviour
 
         if (screenPos == null) return;
 
-        Ray ray = cam.ScreenPointToRay(screenPos.Value);
+        Ray ray = Camera.main.ScreenPointToRay(screenPos.Value);
         if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform == transform)
             treasureController.OnTreasureClicked();
     }

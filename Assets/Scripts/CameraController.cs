@@ -2,14 +2,20 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform targetPosition;
-    public Transform treasure;
     public float speed = 2f;
 
+    private Transform targetPosition;
+    private Transform treasure;
     private bool moveToTarget = false;
 
-    public void FocusOnTreasure()
+    public void SetTarget(Transform target)
     {
+        targetPosition = target;
+    }
+
+    public void FocusOnTreasure(Transform treasureTransform)
+    {
+        treasure = treasureTransform;
         moveToTarget = true;
     }
 

@@ -220,6 +220,9 @@ public class ShopCamera : MonoBehaviour
 
             Inventory.owned[key] = true;
 
+            foreach (var icon in FindObjectsByType<InventoryIcon>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                icon.Refresh();
+
             if (item.itemRenderer != null) item.itemRenderer.enabled = false;
 
             buyButton.interactable = false;

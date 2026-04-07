@@ -60,7 +60,17 @@ public class DraggableIcon : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             {
                 mount.Dig(itemName);
                 isDragging = false;
-                // Spring back after dig
+                springBackCoroutine = StartCoroutine(SpringBackToOrigin());
+                return;
+            }
+
+            var rockChest = hit.collider.GetComponent<RockChest>();
+            if (rockChest != null)
+            {
+                if (itemName.ToLower() == "pickaxe")
+                    rockChest.HitWithPickaxe();
+                // Shovel on RockChest does nothing
+                isDragging = false;
                 springBackCoroutine = StartCoroutine(SpringBackToOrigin());
                 return;
             }

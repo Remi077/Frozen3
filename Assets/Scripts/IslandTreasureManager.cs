@@ -49,11 +49,30 @@ public class IslandTreasureManager : MonoBehaviour
         // Instantiate prefab
         GameObject treasure = Instantiate(treasurePrefab, spawnPos.position, spawnPos.rotation);
 
-        // Configure mount visibility — only show if shovel is owned
-        bool showMount = (withMount ?? spawnWithMount) && Inventory.owned.ContainsKey("shovel") && Inventory.owned["shovel"];
+        // Determine which obstacle to show based on inventory
+        bool hasShovel = Inventory.owned.ContainsKey("shovel") && Inventory.owned["shovel"];
+        bool hasPickaxe = Inventory.owned.ContainsKey("pickaxe") && Inventory.owned["pickaxe"];
+
+        bool showMound = false;
+        bool showRockChest = false;
+
+        if (hasShovel && hasPickaxe)
+        {
+            if (Random.value < 0.5f) showMound = true;
+            else showRockChest = true;
+        }
+        else if (hasShovel)
+            showMound = true;
+        else if (hasPickaxe)
+            showRockChest = true;
+
         Transform mountTransform = treasure.transform.Find("DirtMound");
         if (mountTransform != null)
-            mountTransform.gameObject.SetActive(showMount);
+            mountTransform.gameObject.SetActive(showMound);
+
+        Transform rockChestTransform = treasure.transform.Find("RockChest");
+        if (rockChestTransform != null)
+            rockChestTransform.gameObject.SetActive(showRockChest);
 
         // Wire up the controller references
         TreasureController controller = treasure.GetComponentInChildren<TreasureController>();

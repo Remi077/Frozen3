@@ -90,6 +90,7 @@ public class LiveManager : MonoBehaviour
 
         ResetLives();
         ScoreManager.ResetScore();
+        Inventory.Reset();
 
         Debug.Log("GAME OVER");
 

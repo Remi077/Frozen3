@@ -7,10 +7,9 @@ public class TimerGauge : MonoBehaviour
 {
     [Header("Timer")]
     public float duration = 60f;
-    public string nextScene = "Island";
-    public string secondNextScene = "Island_village";
+    public string[] scenes = { "Island", "Island_village" };
 
-    private static int visitCount = 0;
+    private static int sceneIndex = 0;
 
     [Header("UI")]
     public Slider gauge;               // Slider UI — la fill bar rétrécit automatiquement
@@ -21,7 +20,6 @@ public class TimerGauge : MonoBehaviour
 
     void Start()
     {
-        visitCount++;
         SeaScroller.Speed = 20f;
         timeLeft = duration;
 
@@ -64,6 +62,10 @@ public class TimerGauge : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        SceneManager.LoadScene(visitCount % 2 == 0 ? secondNextScene : nextScene);
+        if (scenes != null && scenes.Length > 0)
+        {
+            SceneManager.LoadScene(scenes[sceneIndex % scenes.Length]);
+            sceneIndex++;
+        }
     }
 }

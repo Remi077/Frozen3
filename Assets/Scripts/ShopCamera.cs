@@ -22,6 +22,13 @@ public static class Inventory
         { "pickaxe", false },
         { "shovel",  false },
     };
+
+    public static void Reset()
+    {
+        var keys = new System.Collections.Generic.List<string>(owned.Keys);
+        foreach (var key in keys)
+            owned[key] = false;
+    }
 }
 
 public class ShopCamera : MonoBehaviour

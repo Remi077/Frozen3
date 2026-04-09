@@ -1717,6 +1717,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8991079018363782750, guid: 084d4f5f6e18fff4391934e720889844, type: 3}
+      propertyPath: scenes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991079018363782750, guid: 084d4f5f6e18fff4391934e720889844, type: 3}
+      propertyPath: 'scenes.Array.data[2]'
+      value: IceCream_boat
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4215550882780610750, guid: 084d4f5f6e18fff4391934e720889844, type: 3}

@@ -19,22 +19,39 @@ public class LiveManager : MonoBehaviour
 
     private Vector3[] iconInitialScales;
 
+    [Header("Debug (Editor Only)")]
+    public bool debugOverrideLives = false;
+    public int debugStartLives = 1;
+
     public static void ResetLives() => persistedLives = defaultLives;
 
     void Awake()
     {
         Instance = this;
+#if UNITY_EDITOR
+        if (debugOverrideLives) persistedLives = debugStartLives;
+#endif
         lives = persistedLives;
 
         iconInitialScales = new Vector3[lifeIcons.Length];
         for (int i = 0; i < lifeIcons.Length; i++)
+        {
             iconInitialScales[i] = lifeIcons[i].transform.localScale;
+            lifeIcons[i].SetActive(i < lives);
+        }
     }
 
     void Start()
     {
+        gameOverText.SetActive(false);
+    }
+
+    public void AddLife(int amount)
+    {
+        if (isGameOver) return;
+        lives = Mathf.Min(lives + amount, lifeIcons.Length);
+        persistedLives = lives;
         UpdateUI();
-        gameOverText.SetActive(false); // hide at start
     }
 
     public void removeLife(int amount)
@@ -59,14 +76,28 @@ public class LiveManager : MonoBehaviour
         {
             if (i < lives)
             {
-                lifeIcons[i].SetActive(true);
-                lifeIcons[i].transform.localScale = iconInitialScales[i];
+                if (!lifeIcons[i].activeSelf)
+                    StartCoroutine(GrowAndShow(lifeIcons[i], i));
             }
             else if (lifeIcons[i].activeSelf)
             {
                 StartCoroutine(ShrinkAndHide(lifeIcons[i]));
             }
         }
+    }
+
+    IEnumerator GrowAndShow(GameObject icon, int index)
+    {
+        icon.transform.localScale = Vector3.zero;
+        icon.SetActive(true);
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / iconShrinkDuration;
+            icon.transform.localScale = Vector3.LerpUnclamped(Vector3.zero, iconInitialScales[index], Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t)));
+            yield return null;
+        }
+        icon.transform.localScale = iconInitialScales[index];
     }
 
     IEnumerator ShrinkAndHide(GameObject icon)

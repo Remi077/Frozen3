@@ -7,12 +7,23 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
+public class EasterEggShopItem
+{
+    public string itemName;
+    public Transform cameraTarget;
+    public Collider triggerCollider;
+}
+
+[System.Serializable]
 public class ShopItem
 {
     public string itemName;
     public int price;
     public Transform cameraTarget;
-    public Renderer itemRenderer;   // drag the item's mesh renderer here
+    public Renderer itemRenderer;
+    public bool isEdible;
+    [Tooltip("Life points restored when eaten (capped at max). Only used if isEdible is true.")]
+    public int healAmount;
 }
 
 public static class Inventory
@@ -36,10 +47,14 @@ public class ShopCamera : MonoBehaviour
     [Header("Items")]
     public ShopItem[] items;
 
+    [Header("Easter Egg")]
+    public EasterEggShopItem easterEggItem;
+
     [Header("Camera Timing")]
     public float introHoldDuration = 3f;
     public float moveToFirstItemDuration = 1.5f;
     public float itemTransitionDuration = 0.8f;
+    public float itemShrinkDuration = 0.35f;
 
     [Header("UI")]
     public GameObject popupMessageObject;
@@ -64,6 +79,11 @@ public class ShopCamera : MonoBehaviour
     private Vector3 nextArrowBaseScale;
     private Vector3 prevArrowBaseScale;
 
+    private bool inEasterEggMode = false;
+    private int lastNormalIndex = 0;
+    private Camera cam;
+    private readonly HashSet<int> consumedThisSession = new HashSet<int>();
+
     private Vector2 touchStart;
     private bool swipeConsumed;
 
@@ -80,6 +100,9 @@ public class ShopCamera : MonoBehaviour
         if (prevArrowButton) prevArrowButton.onClick.AddListener(OnPrevItem);
         if (leaveButton)    leaveButton.onClick.AddListener(OnLeave);
 
+        cam = GetComponent<Camera>();
+        if (cam == null) cam = Camera.main;
+
         StartCoroutine(IntroSequence());
     }
 
@@ -88,6 +111,7 @@ public class ShopCamera : MonoBehaviour
         if (!inputEnabled) return;
         HandleKeyboard();
         HandleTouch();
+        HandleEasterEggTap();
     }
 
     void HandleKeyboard()
@@ -147,20 +171,29 @@ public class ShopCamera : MonoBehaviour
         if (itemNameText) itemNameText.text = item.itemName;
         if (itemPriceText) itemPriceText.text = item.price.ToString();
 
-        string key = item.itemName.ToLower();
-        bool alreadyOwned = Inventory.owned.ContainsKey(key) && Inventory.owned[key];
         if (buyButton)
         {
-            buyButton.interactable = !alreadyOwned;
             var label = buyButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (label) label.text = alreadyOwned ? "owned" : "buy";
+            if (item.isEdible)
+            {
+                bool eaten = consumedThisSession.Contains(index);
+                buyButton.interactable = !eaten;
+                if (label) label.text = eaten ? "eaten" : "eat";
+            }
+            else
+            {
+                string key = item.itemName.ToLower();
+                bool alreadyOwned = Inventory.owned.ContainsKey(key) && Inventory.owned[key];
+                buyButton.interactable = !alreadyOwned;
+                if (label) label.text = alreadyOwned ? "owned" : "buy";
+            }
         }
     }
 
     void UpdateArrows(int index)
     {
-        SetArrow(prevArrowButton, index > 0,                   ref prevArrowCoroutine, prevArrowBaseScale);
-        SetArrow(nextArrowButton, index < items.Length - 1,    ref nextArrowCoroutine, nextArrowBaseScale);
+        SetArrow(nextArrowButton, index > 0,                   ref nextArrowCoroutine, nextArrowBaseScale);
+        SetArrow(prevArrowButton, index < items.Length - 1,    ref prevArrowCoroutine, prevArrowBaseScale);
     }
 
     void SetArrow(Button arrow, bool show, ref Coroutine coroutine, Vector3 baseScale)
@@ -186,16 +219,76 @@ public class ShopCamera : MonoBehaviour
         }
     }
 
+    void HandleEasterEggTap()
+    {
+        if (inEasterEggMode) return;
+        if (easterEggItem == null || easterEggItem.triggerCollider == null || cam == null) return;
+
+        bool tapped = false;
+        Vector2 tapPos = Vector2.zero;
+
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            tapped = true;
+            tapPos = Mouse.current.position.ReadValue();
+        }
+        else if (Touchscreen.current != null)
+        {
+            var touch = Touchscreen.current.primaryTouch;
+            if (touch.press.wasReleasedThisFrame && !swipeConsumed)
+            {
+                tapped = true;
+                tapPos = touch.position.ReadValue();
+            }
+        }
+
+        if (!tapped) return;
+        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
+
+        Ray ray = cam.ScreenPointToRay(tapPos);
+        if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider == easterEggItem.triggerCollider)
+            StartCoroutine(EnterEasterEgg());
+    }
+
+    IEnumerator EnterEasterEgg()
+    {
+        inputEnabled = false;
+        inEasterEggMode = true;
+        lastNormalIndex = currentIndex;
+
+        yield return StartCoroutine(MoveCamera(easterEggItem.cameraTarget, itemTransitionDuration));
+
+        if (itemNameText) itemNameText.text = easterEggItem.itemName;
+        if (itemPriceText) itemPriceText.text = "";
+        if (buyButton) buyButton.gameObject.SetActive(false);
+
+        SetArrow(nextArrowButton, true, ref nextArrowCoroutine, nextArrowBaseScale);
+        SetArrow(prevArrowButton, true, ref prevArrowCoroutine, prevArrowBaseScale);
+
+        inputEnabled = true;
+    }
+
+    void ExitEasterEgg()
+    {
+        inEasterEggMode = false;
+        if (buyButton) buyButton.gameObject.SetActive(true);
+        StartCoroutine(TransitionToItem(lastNormalIndex));
+    }
+
     void OnNextItem()
     {
-        if (!inputEnabled || currentIndex >= items.Length - 1) return;
-        StartCoroutine(TransitionToItem(currentIndex + 1));
+        if (!inputEnabled) return;
+        if (inEasterEggMode) { ExitEasterEgg(); return; }
+        if (currentIndex <= 0) return;
+        StartCoroutine(TransitionToItem(currentIndex - 1));
     }
 
     void OnPrevItem()
     {
-        if (!inputEnabled || currentIndex <= 0) return;
-        StartCoroutine(TransitionToItem(currentIndex - 1));
+        if (!inputEnabled) return;
+        if (inEasterEggMode) { ExitEasterEgg(); return; }
+        if (currentIndex >= items.Length - 1) return;
+        StartCoroutine(TransitionToItem(currentIndex + 1));
     }
 
     IEnumerator TransitionToItem(int newIndex)
@@ -215,28 +308,29 @@ public class ShopCamera : MonoBehaviour
     {
         if (!inputEnabled || items.Length == 0) return;
         ShopItem item = items[currentIndex];
-        string key = item.itemName.ToLower();
-
-        // Already owned — nothing to do
-        if (Inventory.owned.ContainsKey(key) && Inventory.owned[key]) return;
 
         int score = ScoreManager.Instance != null ? ScoreManager.Instance.score : 0;
-        if (score >= item.price)
+        if (score < item.price) { StartCoroutine(NotEnoughCoins()); return; }
+
+        ScoreManager.Instance.AddScore(-item.price);
+        if (item.itemRenderer != null) StartCoroutine(ShrinkAndDisableItem(item.itemRenderer));
+        buyButton.interactable = false;
+
+        if (item.isEdible)
         {
-            ScoreManager.Instance.AddScore(-item.price);
-
-            Inventory.owned[key] = true;
-
-            foreach (var icon in FindObjectsByType<InventoryIcon>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-                icon.Refresh();
-
-            if (item.itemRenderer != null) item.itemRenderer.enabled = false;
-
-            buyButton.interactable = false;
+            consumedThisSession.Add(currentIndex);
+            var label = buyButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (label) label.text = "eaten";
+            if (LiveManager.Instance != null) LiveManager.Instance.AddLife(item.healAmount);
         }
         else
         {
-            StartCoroutine(NotEnoughCoins());
+            string key = item.itemName.ToLower();
+            Inventory.owned[key] = true;
+            foreach (var icon in FindObjectsByType<InventoryIcon>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                icon.Refresh();
+            var label = buyButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (label) label.text = "owned";
         }
     }
 
@@ -273,6 +367,21 @@ public class ShopCamera : MonoBehaviour
         }
         transform.position = target.position;
         transform.rotation = target.rotation;
+    }
+
+    IEnumerator ShrinkAndDisableItem(Renderer r)
+    {
+        Transform t = r.transform;
+        Vector3 originalScale = t.localScale;
+        float elapsed = 0f;
+        while (elapsed < itemShrinkDuration)
+        {
+            elapsed += Time.deltaTime;
+            t.localScale = Vector3.LerpUnclamped(originalScale, Vector3.zero, Mathf.SmoothStep(0f, 1f, elapsed / itemShrinkDuration));
+            yield return null;
+        }
+        r.enabled = false;
+        t.localScale = originalScale;
     }
 
     IEnumerator ScaleUpThenOscillate(GameObject obj, Vector3 baseScale)

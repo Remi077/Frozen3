@@ -131,8 +131,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1767517058233626850, guid: 084d4f5f6e18fff4391934e720889844, type: 3}
+      propertyPath: debugOverrideLives
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2261296952248249590, guid: 084d4f5f6e18fff4391934e720889844, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705706594201959697, guid: 084d4f5f6e18fff4391934e720889844, type: 3}
+      propertyPath: debugOverrideScore
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7513052156326891322, guid: 084d4f5f6e18fff4391934e720889844, type: 3}
@@ -772,8 +780,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c0ce5095e13ecf45b58faf2fa9b5387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  targetPosition: {fileID: 0}
-  treasure: {fileID: 0}
   speed: 1
 --- !u!114 &270017851
 MonoBehaviour:
@@ -788,17 +794,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopCamera
   items:
-  - itemName: Pickaxe
-    price: 20
-    cameraTarget: {fileID: 1849761876}
-    itemRenderer: {fileID: 299040887}
   - itemName: Shovel
     price: 30
     cameraTarget: {fileID: 125747750}
     itemRenderer: {fileID: 2116110541}
+    isEdible: 0
+    healAmount: 0
+  - itemName: Pickaxe
+    price: 20
+    cameraTarget: {fileID: 1849761876}
+    itemRenderer: {fileID: 299040887}
+    isEdible: 0
+    healAmount: 0
+  easterEggItem:
+    itemName: 
+    cameraTarget: {fileID: 0}
+    triggerCollider: {fileID: 0}
   introHoldDuration: 3
   moveToFirstItemDuration: 1.5
   itemTransitionDuration: 0.8
+  itemShrinkDuration: 0.35
   popupMessageObject: {fileID: 503570743}
   itemNameText: {fileID: 330593311}
   itemPriceText: {fileID: 906937435}
@@ -1535,6 +1550,7 @@ MonoBehaviour:
   digMountLayer:
     serializedVersion: 2
     m_Bits: 64
+  springBackDuration: 0.3
 --- !u!1 &906937433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1816,6 +1832,7 @@ MonoBehaviour:
   digMountLayer:
     serializedVersion: 2
     m_Bits: 64
+  springBackDuration: 0.3
 --- !u!1 &1133078113
 GameObject:
   m_ObjectHideFlags: 0

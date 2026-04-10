@@ -10,11 +10,18 @@ public class ScoreManager : MonoBehaviour
 
     private static int persistedScore = 0;
 
+    [Header("Debug (Editor Only)")]
+    public bool debugOverrideScore = false;
+    public int debugStartScore = 30;
+
     public static void ResetScore() => persistedScore = 0;
 
     void Awake()
     {
         Instance = this;
+#if UNITY_EDITOR
+        if (debugOverrideScore) persistedScore = debugStartScore;
+#endif
         score = persistedScore;
     }
 

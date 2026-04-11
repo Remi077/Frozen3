@@ -207,6 +207,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6174556387932233407, guid: 247189a4434cfc04bb6e75cdea9c9cde, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ef1baaf0dd8639f4c901f17fa69d77ba, type: 2}
     - target: {fileID: 7449782648777001352, guid: 247189a4434cfc04bb6e75cdea9c9cde, type: 3}
       propertyPath: m_Name
       value: rock
@@ -214,8 +218,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7449782648777001352, guid: 247189a4434cfc04bb6e75cdea9c9cde, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4767014926376637801}
   m_SourcePrefab: {fileID: -4161369568681901532, guid: 247189a4434cfc04bb6e75cdea9c9cde, type: 3}
+--- !u!1 &4438707854925604062 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7449782648777001352, guid: 247189a4434cfc04bb6e75cdea9c9cde, type: 3}
+  m_PrefabInstance: {fileID: 6555979504906104150}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4767014926376637801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4438707854925604062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e845f75ea6d882f4dacd535f49d3b33f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FadeIn
+  fadeStartDistance: 120
+  fadeEndDistance: 100
 --- !u!4 &7590293154852565211 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5499554889900253811, guid: 247189a4434cfc04bb6e75cdea9c9cde, type: 3}

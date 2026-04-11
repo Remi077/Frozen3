@@ -15,6 +15,8 @@ public class StartMenuController : MonoBehaviour
     public float popDuration = 0.12f;
     public float shineDuration = 0.25f;
 
+    [SerializeField] string sceneName = "SeaScroll";
+
     private bool clicked = false;
 
     void Start()
@@ -90,6 +92,6 @@ public class StartMenuController : MonoBehaviour
             shineOverlay.gameObject.SetActive(false);
         }
 
-        SceneManager.LoadScene("SeaScroll");
+        SceneManager.LoadScene(sceneName);
     }
 }

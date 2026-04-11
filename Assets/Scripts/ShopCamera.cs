@@ -44,6 +44,9 @@ public static class Inventory
 
 public class ShopCamera : MonoBehaviour
 {
+    [Header("Scene")]
+    [SerializeField] string sceneName = "SeaScroll";
+
     [Header("Items")]
     public ShopItem[] items;
 
@@ -349,7 +352,7 @@ public class ShopCamera : MonoBehaviour
 
     void OnLeave()
     {
-        SceneManager.LoadScene("SeaScroll");
+        SceneManager.LoadScene(sceneName);
     }
 
     IEnumerator MoveCamera(Transform target, float duration)

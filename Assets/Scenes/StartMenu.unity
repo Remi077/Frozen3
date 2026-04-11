@@ -155,6 +155,7 @@ MonoBehaviour:
   popScale: 1.5
   popDuration: 0.3
   shineDuration: 0.25
+  sceneName: SeaScroll_2
 --- !u!4 &8484817
 Transform:
   m_ObjectHideFlags: 0

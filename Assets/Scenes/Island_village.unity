@@ -1212,8 +1212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c0ce5095e13ecf45b58faf2fa9b5387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  targetPosition: {fileID: 0}
-  treasure: {fileID: 0}
   speed: 1
 --- !u!114 &270017851
 MonoBehaviour:
@@ -2133,7 +2131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c21547cc128c74ba442f022e5e8035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadScene
-  sceneName: SeaScroll
+  sceneName: SeaScroll_2
 --- !u!1001 &726384651
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5106,7 +5104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c21547cc128c74ba442f022e5e8035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadScene
-  sceneName: SeaScroll
+  sceneName: SeaScroll_2
 --- !u!1 &1889788107
 GameObject:
   m_ObjectHideFlags: 0

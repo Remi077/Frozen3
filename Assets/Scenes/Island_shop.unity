@@ -793,6 +793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18217ace37d78894f998be552e29b698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopCamera
+  sceneName: SeaScroll_2
   items:
   - itemName: Shovel
     price: 30
@@ -1528,7 +1529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c21547cc128c74ba442f022e5e8035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadScene
-  sceneName: SeaScroll
+  sceneName: SeaScroll_2
 --- !u!1 &873245964 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3476117102256476686, guid: 084d4f5f6e18fff4391934e720889844, type: 3}
